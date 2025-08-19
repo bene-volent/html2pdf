@@ -132,7 +132,11 @@ st.caption("Pixel-accurate export with @media print / @page support. Hyperlinks 
 
 with st.sidebar:
     st.header("Options")
-
+    custom_filename = st.text_input(
+        "Custom PDF filename (optional)",
+        help="Specify a name for the output PDF file. Leave empty to use the uploaded file's name."
+    )
+    st.markdown("---")
     paper_choice = st.selectbox(
         "Paper size",
         ["A4", "Letter", "Legal", "Tabloid", "Custom"],
@@ -272,10 +276,14 @@ if generate:
         st.subheader("PDF Output")
         st.success("PDF generated successfully. Hyperlinks remain clickable 🎉")
 
+        final_filename = custom_filename.strip() or fname_base
+
+        # ...
         st.download_button(
             label="⬇️ Download PDF",
             data=pdf_bytes,
-            file_name=f"{fname_base}.pdf",
+            # Use the final_filename variable here
+            file_name=f"{final_filename}.pdf",
             mime="application/pdf",
             use_container_width=True
         )
