@@ -1,7 +1,10 @@
 # app.py
 # Streamlit HTML → PDF exporter (keeps links), using Playwright/Chromium
 # Author: Raghav
+import subprocess
 
+# Ensure Chromium is installed on runtime (first run will be slower)
+subprocess.run(["playwright", "install", "chromium"], check=False)
 import io
 import os
 import zipfile
