@@ -262,20 +262,15 @@ if generate:
         fname_base = Path(uploaded.name).stem or "export"
         st.success("PDF generated successfully. Hyperlinks remain clickable 🎉")
 
-        col_preview_html, col_preview_pdf = st.columns(2)
+        st.subheader("HTML Preview")
+        if suffix == ".zip":
+            st.info("HTML preview is not available for ZIP files due to asset dependencies.")
+        else:
+            # Use a slightly wider container for better viewing
+            st.components.v1.html(html_text, height=500, scrolling=True)
 
-        with col_preview_html:
-            st.subheader("HTML Preview")
-            if suffix == ".zip":
-                st.info("HTML preview is not available for ZIP files due to asset dependencies.")
-            else:
-                st.components.v1.html(html_text, height=500, scrolling=True)
-
-        with col_preview_pdf:
-            st.subheader("PDF Preview")
-            base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-            pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="500" type="application/pdf"></iframe>'
-            st.markdown(pdf_display, unsafe_allow_html=True)
+        st.subheader("PDF Output")
+        st.success("PDF generated successfully. Hyperlinks remain clickable 🎉")
 
         st.download_button(
             label="⬇️ Download PDF",
@@ -284,9 +279,7 @@ if generate:
             mime="application/pdf",
             use_container_width=True
         )
-        st.caption(
-            "If links don’t appear clickable in your viewer, try opening in a dedicated PDF reader (they’re embedded).")
-
+        st.caption("If links don’t appear clickable in your viewer, try opening in a dedicated PDF reader (they’re embedded).")
     finally:
         for p in cleanup_paths:
             try:
