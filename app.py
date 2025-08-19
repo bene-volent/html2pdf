@@ -63,7 +63,10 @@ def render_pdf(
     wait_timeout_ms: int
 ) -> bytes:
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch()
+        browser = playwright.chromium.launch(
+            headless=True,
+            args=["--no-sandbox", "--disable-dev-shm-usage"]
+        )
         context = browser.new_context(java_script_enabled=True)
         page = context.new_page()
 

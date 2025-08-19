@@ -1,0 +1,2 @@
+[global]
+postCreateCommand = "playwright install --with-deps chromium"
